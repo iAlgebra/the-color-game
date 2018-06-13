@@ -5,7 +5,7 @@ body {
 .square {;
 	width: 30%;
 	background-color: purple;
-	padding-bottom: 30%;
+	padding-bottom: 30%; /*sets the height of the squares*/
 	float: left;
 	margin: 1.66%;
 }
