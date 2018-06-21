@@ -7,11 +7,10 @@ var colors = [
 	"rgb(255, 0, 255)" //magenta
 ];
 
-const SELECTED_COLOR = 3;
 const BODY_BG_COLOR = "#232323";
 
 var $squares = document.querySelectorAll(".square");
-var pickedColor = colors[SELECTED_COLOR];
+var pickedColor = pickColor(); //returns a string color
 var $colorDisplay = document.querySelector("#colorDisplay");
 var $messageDisplay = document.querySelector("#message");
 
@@ -40,7 +39,16 @@ for (var i = 0; i < $squares.length; i++) {
 }
 
 function changeColors(winningColor) {
+	//loop through all sqaures
 	for(var i = 0; i < $squares.length; i++) {
+		//change each color to match given color
 		$squares[i].style.backgroundColor = winningColor;
 	}
+}
+
+
+function pickColor() {
+	//generates a random int between 0 and the max index of the colors array
+	var random = Math.floor(Math.random() * colors.length);
+	return colors[random];
 }
