@@ -29,6 +29,7 @@ for (var i = 0; i < $squares.length; i++) {
 		if (clickedColor === pickedColor) { //correct guess
 			//display correct message
 			$messageDisplay.textContent = "Correct!";
+			changeColors(clickedColor);
 		} else { //wrong guess
 			//square disappears
 			this.style.backgroundColor = BODY_BG_COLOR;
@@ -36,4 +37,10 @@ for (var i = 0; i < $squares.length; i++) {
 			$messageDisplay.textContent = "Try Again";
 		}
 	});
+}
+
+function changeColors(winningColor) {
+	for(var i = 0; i < $squares.length; i++) {
+		$squares[i].style.backgroundColor = winningColor;
+	}
 }
