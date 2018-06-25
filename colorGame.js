@@ -1,4 +1,6 @@
-var colors = generateRandomColors(6); //returns an array of 6 colors
+const COLORS_QTY = 6;
+
+var colors = generateRandomColors(COLORS_QTY); //returns an array of 6 colors
 
 const BODY_BG_COLOR = "#232323";
 
@@ -59,13 +61,11 @@ function generateRandomColors(num) {
 function randomColor() {//creates one random color
 	//creating the string for the color
 	var arr = [];
-	var str = "rgb(";
-	var str2 = ")";
 	//repeat three times
 	for(var i = 0; i < 3; i++) {
 		//generates a number from 0 to 255 and push into arr
 		arr.push(Math.floor(Math.random() * 256));
 	}
-	var stringColor = str + arr + str2;
+	var stringColor = "rgb(" + arr[0] + ", " + arr[1] + ", " + arr[2] + ")";
 	return stringColor;
 }
