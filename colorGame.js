@@ -8,6 +8,8 @@ var $squares = document.querySelectorAll(".square");
 var pickedColor = pickColor(); //returns a string color
 var $colorDisplay = document.querySelector("#colorDisplay");
 var $messageDisplay = document.querySelector("#message");
+var $h1 = document.querySelector("h1");
+var $resetButton = document.querySelector("#reset");
 
 $colorDisplay.textContent = pickedColor;
 
@@ -22,7 +24,12 @@ for (var i = 0; i < $squares.length; i++) {
 		if (clickedColor === pickedColor) { //correct guess
 			//display correct message
 			$messageDisplay.textContent = "Correct!";
+			//display Play Again message
+			$resetButton.textContent = "Play Again?";
+			//change all squares color to clicked color
 			changeColors(clickedColor);
+			//change h1 background color
+			$h1.style.backgroundColor = clickedColor;
 		} else { //wrong guess
 			//square disappears
 			this.style.backgroundColor = BODY_BG_COLOR;
@@ -69,3 +76,18 @@ function randomColor() {//creates one random color
 	var stringColor = "rgb(" + arr[0] + ", " + arr[1] + ", " + arr[2] + ")";
 	return stringColor;
 }
+
+$resetButton.addEventListener("click", function() {
+	//generate all new colors
+	colors = generateRandomColors(COLORS_QTY);
+	//pick a new random color from the array
+	pickedColor = pickColor();
+	//change colorDisplay to match picked color
+	$colorDisplay.textContent = pickedColor;
+	//change colors of squares
+	for(var i = 0; i < $squares.length; i++) {
+		$squares[i].style.backgroundColor = colors[i];
+	}
+	//reset background color for h1
+	$h1.style.backgroundColor = BODY_BG_COLOR;
+});
