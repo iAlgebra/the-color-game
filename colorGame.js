@@ -1,15 +1,15 @@
 const COLORS_QTY = 6;
-
-var colors = generateRandomColors(COLORS_QTY); //returns an array of 6 colors
-
 const BODY_BG_COLOR = "#232323";
 
+var colors = generateRandomColors(COLORS_QTY); //returns an array of 6 colors
 var $squares = document.querySelectorAll(".square");
 var pickedColor = pickColor(); //returns a string color
 var $colorDisplay = document.querySelector("#colorDisplay");
 var $messageDisplay = document.querySelector("#message");
 var $h1 = document.querySelector("h1");
 var $resetButton = document.querySelector("#reset");
+var $easyButton = document.querySelector("#easyBtn");
+var $hardButton = document.querySelector("#hardBtn");
 
 $colorDisplay.textContent = pickedColor;
 
@@ -90,4 +90,14 @@ $resetButton.addEventListener("click", function() {
 	}
 	//reset background color for h1
 	$h1.style.backgroundColor = BODY_BG_COLOR;
+});
+
+$easyButton.addEventListener("click", function() {
+	$hardButton.classList.remove("selected");
+	this.classList.add("selected");
+});
+
+$hardButton.addEventListener("click", function() {
+	$easyButton.classList.remove("selected");
+	this.classList.add("selected");
 });
