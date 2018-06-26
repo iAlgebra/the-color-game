@@ -1,7 +1,7 @@
-const COLORS_QTY = 6;
 const BODY_BG_COLOR = "#232323";
 
-var colors = generateRandomColors(COLORS_QTY); //returns an array of 6 colors
+var squaresQty = 6;
+var colors = generateRandomColors(squaresQty); //returns an array of 6 colors
 var $squares = document.querySelectorAll(".square");
 var pickedColor = pickColor(); //returns a string color
 var $colorDisplay = document.querySelector("#colorDisplay");
@@ -73,13 +73,12 @@ function randomColor() {//creates one random color
 		//generates a number from 0 to 255 and push into arr
 		arr.push(Math.floor(Math.random() * 256));
 	}
-	var stringColor = "rgb(" + arr[0] + ", " + arr[1] + ", " + arr[2] + ")";
-	return stringColor;
+	return "rgb(" + arr[0] + ", " + arr[1] + ", " + arr[2] + ")";
 }
 
 $resetButton.addEventListener("click", function() {
 	//generate all new colors
-	colors = generateRandomColors(COLORS_QTY);
+	colors = generateRandomColors(squaresQty);
 	//pick a new random color from the array
 	pickedColor = pickColor();
 	//change colorDisplay to match picked color
@@ -95,9 +94,30 @@ $resetButton.addEventListener("click", function() {
 $easyButton.addEventListener("click", function() {
 	$hardButton.classList.remove("selected");
 	this.classList.add("selected");
+	squaresQty = 3;
+	colors = generateRandomColors(squaresQty);
+	pickedColor = pickColor();
+	$colorDisplay.textContent = pickedColor;
+	for(var i = 0; i < $squares.length; i++) {
+		if(colors[i]) {
+			$squares[i].style.backgroundColor = colors[i];
+		} else {
+			$squares[i].style.display = "none";
+		}
+	}
 });
 
 $hardButton.addEventListener("click", function() {
 	$easyButton.classList.remove("selected");
 	this.classList.add("selected");
+	squaresQty = 6;
+	colors = generateRandomColors(squaresQty);
+	pickedColor = pickColor();
+	$colorDisplay.textContent = pickedColor;
+	for(var i = 0; i < $squares.length; i++) {
+		$squares[i].style.backgroundColor = colors[i];
+		if (i >= 3) {
+			$squares[i].style.display = "block";
+		}
+	}
 });
