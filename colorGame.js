@@ -1,4 +1,5 @@
 const BODY_BG_COLOR = "#232323";
+const H1_BG_COLOR = "steelblue";
 
 var squaresQty = 6;
 var colors = generateRandomColors(squaresQty); //returns an array of 6 colors
@@ -12,6 +13,52 @@ var $easyButton = document.querySelector("#easyBtn");
 var $hardButton = document.querySelector("#hardBtn");
 
 $colorDisplay.textContent = pickedColor;
+
+$easyButton.addEventListener("click", function() {
+	$hardButton.classList.remove("selected");
+	this.classList.add("selected");
+	squaresQty = 3;
+	colors = generateRandomColors(squaresQty);
+	pickedColor = pickColor();
+	$colorDisplay.textContent = pickedColor;
+	for(var i = 0; i < $squares.length; i++) {
+		if(colors[i]) {
+			$squares[i].style.backgroundColor = colors[i];
+		} else {
+			$squares[i].style.display = "none";
+		}
+	}
+});
+
+$hardButton.addEventListener("click", function() {
+	$easyButton.classList.remove("selected");
+	this.classList.add("selected");
+	squaresQty = 6;
+	colors = generateRandomColors(squaresQty);
+	pickedColor = pickColor();
+	$colorDisplay.textContent = pickedColor;
+	for(var i = 0; i < $squares.length; i++) {
+		$squares[i].style.backgroundColor = colors[i];
+		if (i >= 3) {
+			$squares[i].style.display = "block";
+		}
+	}
+});
+
+$resetButton.addEventListener("click", function() {
+	//generate all new colors
+	colors = generateRandomColors(squaresQty);
+	//pick a new random color from the array
+	pickedColor = pickColor();
+	//change colorDisplay to match picked color
+	$colorDisplay.textContent = pickedColor;
+	//change colors of squares
+	for(var i = 0; i < $squares.length; i++) {
+		$squares[i].style.backgroundColor = colors[i];
+	}
+	//reset background color for h1
+	$h1.style.backgroundColor = H1_BG_COLOR;
+});
 
 for (var i = 0; i < $squares.length; i++) {
 	//add initial colors to squares
@@ -75,49 +122,3 @@ function randomColor() {//creates one random color
 	}
 	return "rgb(" + arr[0] + ", " + arr[1] + ", " + arr[2] + ")";
 }
-
-$resetButton.addEventListener("click", function() {
-	//generate all new colors
-	colors = generateRandomColors(squaresQty);
-	//pick a new random color from the array
-	pickedColor = pickColor();
-	//change colorDisplay to match picked color
-	$colorDisplay.textContent = pickedColor;
-	//change colors of squares
-	for(var i = 0; i < $squares.length; i++) {
-		$squares[i].style.backgroundColor = colors[i];
-	}
-	//reset background color for h1
-	$h1.style.backgroundColor = BODY_BG_COLOR;
-});
-
-$easyButton.addEventListener("click", function() {
-	$hardButton.classList.remove("selected");
-	this.classList.add("selected");
-	squaresQty = 3;
-	colors = generateRandomColors(squaresQty);
-	pickedColor = pickColor();
-	$colorDisplay.textContent = pickedColor;
-	for(var i = 0; i < $squares.length; i++) {
-		if(colors[i]) {
-			$squares[i].style.backgroundColor = colors[i];
-		} else {
-			$squares[i].style.display = "none";
-		}
-	}
-});
-
-$hardButton.addEventListener("click", function() {
-	$easyButton.classList.remove("selected");
-	this.classList.add("selected");
-	squaresQty = 6;
-	colors = generateRandomColors(squaresQty);
-	pickedColor = pickColor();
-	$colorDisplay.textContent = pickedColor;
-	for(var i = 0; i < $squares.length; i++) {
-		$squares[i].style.backgroundColor = colors[i];
-		if (i >= 3) {
-			$squares[i].style.display = "block";
-		}
-	}
-});
