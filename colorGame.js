@@ -58,6 +58,8 @@ $resetButton.addEventListener("click", function() {
 	}
 	//reset background color for h1
 	$h1.style.backgroundColor = H1_BG_COLOR;
+	$messageDisplay.textContent = "";
+	this.textContent = "New Colors";
 });
 
 for (var i = 0; i < $squares.length; i++) {
