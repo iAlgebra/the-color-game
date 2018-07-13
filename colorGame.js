@@ -2,91 +2,92 @@ const BODY_BG_COLOR = "#232323";
 const H1_BG_COLOR = "steelblue";
 
 var squaresQty = 6;
-var colors = generateRandomColors(squaresQty); //returns an array of 6 colors
+var colors; //it's gonna be an array of colors when the page loads
+var pickedColor; //it will be a string rgb color
+	
 var $squares = document.querySelectorAll(".square");
-var pickedColor = pickColor(); //returns a string color
 var $colorDisplay = document.querySelector("#colorDisplay");
 var $messageDisplay = document.querySelector("#message");
 var $h1 = document.querySelector("h1");
 var $resetButton = document.querySelector("#reset");
-var $easyButton = document.querySelector("#easyBtn");
-var $hardButton = document.querySelector("#hardBtn");
+var $modeButtons = document.querySelectorAll(".mode");
 
-$colorDisplay.textContent = pickedColor;
+init();
 
-$easyButton.addEventListener("click", function() {
-	$hardButton.classList.remove("selected");
-	this.classList.add("selected");
-	squaresQty = 3;
-	colors = generateRandomColors(squaresQty);
-	pickedColor = pickColor();
-	$colorDisplay.textContent = pickedColor;
-	for(var i = 0; i < $squares.length; i++) {
-		if(colors[i]) {
-			$squares[i].style.backgroundColor = colors[i];
-		} else {
-			$squares[i].style.display = "none";
-		}
+function init() {
+	//mode buttons event listeners
+	setupModeButtons();
+	setupSquares();
+	reset();
+}
+
+function setupModeButtons() {
+	for(var i = 0; i < $modeButtons.length; i++) {
+		$modeButtons[i].addEventListener("click", function(){
+			//loop through all buttons to remove the class from all of them
+			for(var j = 0; j < $modeButtons.length; j++) {
+				$modeButtons[j].classList.remove("selected");
+			}
+			//only the button that was clicked receives the class back
+			this.classList.add("selected");
+			//if easy btn was clicked, generate 3 colors / if it was hard btn, generate 6 colors
+			this.textContent === "Easy" ? squaresQty = 3 : squaresQty = 6;
+			reset();
+		});
 	}
-});
+}
 
-$hardButton.addEventListener("click", function() {
-	$easyButton.classList.remove("selected");
-	this.classList.add("selected");
-	squaresQty = 6;
-	colors = generateRandomColors(squaresQty);
-	pickedColor = pickColor();
-	$colorDisplay.textContent = pickedColor;
-	for(var i = 0; i < $squares.length; i++) {
-		$squares[i].style.backgroundColor = colors[i];
-		if (i >= 3) {
-			$squares[i].style.display = "block";
-		}
+function setupSquares() {
+	for (var i = 0; i < $squares.length; i++) {
+		//add click listeners to squares
+		$squares[i].addEventListener("click", function() {
+			//grab color of clicked square
+			var clickedColor = this.style.backgroundColor;
+			//compare color to pickedColor
+			if (clickedColor === pickedColor) { //correct guess
+				//display correct message
+				$messageDisplay.textContent = "Correct!";
+				//display Play Again message
+				$resetButton.textContent = "Play Again?";
+				//change all squares color to clicked color
+				changeColors(clickedColor);
+				//change h1 background color
+				$h1.style.backgroundColor = clickedColor;
+			} else { //wrong guess
+				//square disappears
+				this.style.backgroundColor = BODY_BG_COLOR;
+				//display try again message
+				$messageDisplay.textContent = "Try Again";
+			}
+		});
 	}
-});
+}
 
-$resetButton.addEventListener("click", function() {
+function reset() {
 	//generate all new colors
 	colors = generateRandomColors(squaresQty);
 	//pick a new random color from the array
 	pickedColor = pickColor();
 	//change colorDisplay to match picked color
 	$colorDisplay.textContent = pickedColor;
-	//change colors of squares
-	for(var i = 0; i < $squares.length; i++) {
-		$squares[i].style.backgroundColor = colors[i];
-	}
 	//reset background color for h1
 	$h1.style.backgroundColor = H1_BG_COLOR;
 	$messageDisplay.textContent = "";
-	this.textContent = "New Colors";
-});
-
-for (var i = 0; i < $squares.length; i++) {
-	//add initial colors to squares
-	$squares[i].style.backgroundColor = colors[i];
-	//add click listeners to squares
-	$squares[i].addEventListener("click", function() {
-		//grab color of clicked square
-		var clickedColor = this.style.backgroundColor;
-		//compare color to pickedColor
-		if (clickedColor === pickedColor) { //correct guess
-			//display correct message
-			$messageDisplay.textContent = "Correct!";
-			//display Play Again message
-			$resetButton.textContent = "Play Again?";
-			//change all squares color to clicked color
-			changeColors(clickedColor);
-			//change h1 background color
-			$h1.style.backgroundColor = clickedColor;
-		} else { //wrong guess
-			//square disappears
-			this.style.backgroundColor = BODY_BG_COLOR;
-			//display try again message
-			$messageDisplay.textContent = "Try Again";
-		}
-	});
+	$resetButton.textContent = "New Colors";
+	//change colors of squares
+	for(var i = 0; i < $squares.length; i++) {
+		if(colors[i]) {
+			$squares[i].style.display = "block";
+ 			$squares[i].style.backgroundColor = colors[i];
+ 		} else {
+ 			$squares[i].style.display = "none";
+ 		}
+	}
 }
+
+$resetButton.addEventListener("click", function() {
+	reset();
+});
 
 function changeColors(winningColor) {
 	//loop through all sqaures
